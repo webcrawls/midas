@@ -1,4 +1,4 @@
-package live.webcrawls.midas.common.sender;
+package live.webcrawls.midas.api.sender;
 
 import java.util.Map;
 import java.util.UUID;
