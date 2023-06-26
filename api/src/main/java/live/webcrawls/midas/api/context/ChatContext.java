@@ -1,4 +1,4 @@
-package live.webcrawls.midas.common.context;
+package live.webcrawls.midas.api.context;
 
 /**
  * {@code ChatContext};
