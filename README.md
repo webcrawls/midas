@@ -12,3 +12,11 @@ Midas is a multi-platform Minecraft chat mod, supporting [Paper](#), [Forge](#),
     - [ ] Markdown support
     - [ ] Greentext support
     - [ ] MiniMessage support
+
+## Packages
+
+- `api`
+- `common`
+- `forge`
+- `fabric`
+- `paper`
