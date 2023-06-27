@@ -7,6 +7,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.event.HoverEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextColor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,11 +45,13 @@ public class URLFormatter implements ChatFormatter {
         Component message = context.message();
 
         for (var url : urls) {
-            Component hoverText = Component.text("Click to visit URL", NamedTextColor.GRAY);
-            Component text = Component
-                    .text(url, NamedTextColor.BLUE)
-                    .hoverEvent(HoverEvent.showText(hoverText))
-                    .clickEvent(ClickEvent.clickEvent(ClickEvent.Action.OPEN_URL, url));
+            String cleanedUrl = url
+                    .replace("https://", "")
+                    .replace("http://", "")
+                    .replace("www.", "");
+
+            Component text = createUrlComponent(url, cleanedUrl);
+
             message = message.replaceText(builder -> builder
                     .match(url)
                     .replacement(text));
@@ -60,4 +63,14 @@ public class URLFormatter implements ChatFormatter {
         // 3. update the context's component and continue
         // 4. return result
     }
+
+    private Component createUrlComponent(String original, String cleaned) {
+        Component hoverText = Component.text("Click to visit URL", NamedTextColor.GRAY);
+        Component text = Component
+                .text(cleaned, TextColor.color(80, 180, 255))
+                .hoverEvent(HoverEvent.showText(hoverText))
+                .clickEvent(ClickEvent.clickEvent(ClickEvent.Action.OPEN_URL, original));
+        return text;
+    }
+
 }
