@@ -4,6 +4,7 @@ Midas is a multi-platform Minecraft chat mod, supporting [Paper](#), [Forge](#),
 
 ## Features
 
+- [ ] Docker-based dev environment
 - [ ] Context-based chat formatting (a-la LuckPerms)
 - [ ] Discord bridge
 - [ ] Rich text formatting

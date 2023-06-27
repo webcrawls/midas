@@ -1,26 +1,26 @@
 package live.webcrawls.midas.forge;
 
 import com.mojang.logging.LogUtils;
-import net.minecraft.client.Minecraft;
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.CreativeModeTabs;
+import live.webcrawls.midas.api.context.ChatContext;
+import live.webcrawls.midas.api.sender.ChatSender;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.serializer.json.JSONComponentSerializer;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.ServerChatEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
 import org.slf4j.Logger;
+
+import java.util.Map;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(MidasForge.MODID)
@@ -35,7 +35,10 @@ public class MidasForge {
     // Create a Deferred Register to hold Items which will all be registered under the "midas-chat" namespace
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, MODID);
 
+    private final ForgeMidasPlatform platform;
+
     public MidasForge() {
+        this.platform = new ForgeMidasPlatform();
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
         // Register the commonSetup method for modloading
@@ -56,23 +59,31 @@ public class MidasForge {
         LOGGER.info("DIRT BLOCK >> {}", ForgeRegistries.BLOCKS.getKey(Blocks.DIRT));
     }
 
-    // You can use SubscribeEvent and let the Event Bus discover methods to call
+
     @SubscribeEvent
-    public void onServerStarting(ServerStartingEvent event) {
-        // Do something when the server starts
-        LOGGER.info("HELLO from server starting");
+    public void onServerChat(ServerChatEvent event) {
+        ServerPlayer player = event.getPlayer();
+        ChatSender sender = ChatSender.immutable(
+                player.getUUID(),
+                player.getName().plainCopy().toString(),
+                Map.of()
+        );
+
+        Component text = forgeToAdventure(event.getMessage());
+        ChatContext ctx = ChatContext.immutable(sender, text, event.getRawText());
+        ChatContext formattedCtx = this.platform.formatContext(ctx);
+
+        event.setMessage(adventureToForge(formattedCtx.message()));
     }
 
-    // You can use EventBusSubscriber to automatically register all static methods in the class annotated with @SubscribeEvent
-    @Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
-    public static class ClientModEvents {
+    private Component forgeToAdventure(net.minecraft.network.chat.Component component) {
+        String json = net.minecraft.network.chat.Component.Serializer.toJson(component);
+        Component adventure = JSONComponentSerializer.json().deserialize(json);
+        return adventure;
+    }
 
-        @SubscribeEvent
-        public static void onClientSetup(FMLClientSetupEvent event)
-        {
-            // Some client setup code
-            LOGGER.info("HELLO FROM CLIENT SETUP");
-            LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
-        }
+    private net.minecraft.network.chat.Component adventureToForge(Component component) {
+        String json = JSONComponentSerializer.json().serialize(component);
+        return net.minecraft.network.chat.Component.Serializer.fromJson(json);
     }
 }
