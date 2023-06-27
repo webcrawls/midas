@@ -7,9 +7,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MidasPaper extends JavaPlugin {
+public class MidasPlugin extends JavaPlugin {
 
-    private PaperChatService chatService;
+    private PaperMidasPlatform chatService;
     private List<ChatFormatter> formatters;
 
     @Override
@@ -18,7 +18,7 @@ public class MidasPaper extends JavaPlugin {
         this.formatters = new ArrayList<>();
         this.formatters.add(new GreentextChatFormatter());
 
-        this.chatService = new PaperChatService(this, this.formatters);
+        this.chatService = new PaperMidasPlatform(this, this.formatters);
         this.chatService.registerListeners();
     }
 

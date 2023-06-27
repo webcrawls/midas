@@ -1,3 +1,8 @@
+plugins {
+    `java-library`
+}
+
 dependencies {
-    implementation(project(":api"))
+    api(project(":api"))
+    api("org.spongepowered:configurate-hocon:4.0.0")
 }
