@@ -20,6 +20,12 @@ dependencies {
 }
 
 tasks {
+    shadowJar {
+        relocate("org.spongepowered", "live.webcrawls.midas.paper.")
+    }
+}
+
+tasks {
     build {
         dependsOn(shadowJar)
     }

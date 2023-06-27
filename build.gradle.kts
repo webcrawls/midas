@@ -9,3 +9,8 @@ subprojects {
 
     apply<JavaPlugin>()
 }
+
+allprojects {
+    group = "live.webcrawls.midas"
+    version = "1.0.0"
+}
