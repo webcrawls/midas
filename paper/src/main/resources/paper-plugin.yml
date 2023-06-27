@@ -1,0 +1,4 @@
+name: "Midas"
+version: "0.0.1"
+main: "live.webcrawls.midas.paper.MidasPaper"
+api-version: "1.20"

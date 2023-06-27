@@ -8,8 +8,4 @@ subprojects {
     }
 
     apply<JavaPlugin>()
-
-    dependencies {
-
-    }
 }
