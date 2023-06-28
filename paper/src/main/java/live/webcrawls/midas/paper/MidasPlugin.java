@@ -22,8 +22,8 @@ public class MidasPlugin extends JavaPlugin implements Listener, ChatRenderer {
 
     @Override
     public void onEnable() {
-        this.platform = new MidasPlatform(this.getDataFolder());
-        this.platform.loadConfiguration();
+        this.platform = new MidasPlatform(this.getDataFolder(), null);
+        this.platform.load();
         this.getServer().getPluginManager().registerEvents(this, this);
     }
 
