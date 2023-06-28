@@ -1,134 +1,162 @@
-plugins {
-    id 'net.minecraftforge.gradle' version '6.0.6'
-    id "java"
-    id "com.github.johnrengelman.shadow" version "8.1.1"
-}
-
-
-group = 'live.webcrawls.midas'
-version = '1.0-SNAPSHOT'
-
-java {
-    archivesBaseName = 'midas'
-    toolchain.languageVersion = JavaLanguageVersion.of(17)
-}
-
-configurations {
-    shade
-    implementation.extendsFrom shade
-}
-
-minecraft {
-    mappings channel: 'official', version: '1.19.2'
-
-    runs {
-        client {
-            workingDirectory project.file('run')
-
-            property 'forge.logging.markers', 'REGISTRIES'
-
-            property 'forge.logging.console.level', 'debug'
-
-            // Comma-separated list of namespaces to load gametests from. Empty = all namespaces.
-            property 'forge.enabledGameTestNamespaces', 'midas'
-
-            mods {
-                midas {
-                    source sourceSets.main
-                }
-            }
-        }
-
-        server {
-            workingDirectory project.file('run')
-
-            property 'forge.logging.markers', 'REGISTRIES'
-
-            property 'forge.logging.console.level', 'debug'
-
-            property 'forge.enabledGameTestNamespaces', 'midas'
-
-            mods {
-                midas {
-                    source sourceSets.main
-                }
-            }
-        }
-
-        gameTestServer {
-            workingDirectory project.file('run')
-
-            property 'forge.logging.markers', 'REGISTRIES'
-
-            property 'forge.logging.console.level', 'debug'
-
-            property 'forge.enabledGameTestNamespaces', 'midas'
-
-            mods {
-                midas {
-                    source sourceSets.main
-                }
-            }
-        }
-
-        data {
-            workingDirectory project.file('run')
-
-            property 'forge.logging.markers', 'REGISTRIES'
-
-            property 'forge.logging.console.level', 'debug'
-
-            // Specify the modid for data generation, where to output the resulting resource, and where to look for existing resources.
-            args '--mod', 'midas', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
-
-            mods {
-                midas {
-                    source sourceSets.main
-                }
-            }
-        }
-    }
-}
-
-sourceSets.main.resources { srcDir 'src/generated/resources' }
-
-repositories {
-}
-
-dependencies {
-    minecraft 'net.minecraftforge:forge:1.19.2-43.2.11'
-    shade project(":api")
-    shade project(":common")
-    shade "net.kyori:adventure-text-serializer-gson:4.14.0"
-
-}
-
-jar {
-    archiveClassifier = 'slim'
-    manifest {
-        attributes([
-                "Specification-Title"     : "midas",
-                "Specification-Version"   : "1", // We are version 1 of ourselves
-                "Implementation-Title"    : project.name,
-                "Implementation-Version"  : project.jar.archiveVersion,
-                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
-        ])
-    }
-}
-
-tasks.withType(JavaCompile).configureEach {
-    options.encoding = 'UTF-8' // Use the UTF-8 charset for Java compilation
-}
-
-shadowJar {
-    archiveClassifier = ""
-    configurations = [project.configurations.shade]
-    finalizedBy 'reobfShadowJar'
-    relocate("net.kyori", "live.webcrawls.midas.dependency.net.kyori")
-}
-
-assemble.dependsOn shadowJar
-
-reobf {
-    shadowJar {}
-}
+//plugins {
+//    id 'net.minecraftforge.gradle' version "6.0.6"
+//    id "java"
+//}
+//
+//
+//group = 'live.webcrawls.midas'
+//version = '1.0.0'
+//archivesBaseName = 'midas'
+//java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+//
+//minecraft {
+//    mappings channel: 'official', version: '1.19.2'
+//}
+//
+//repositories {
+//    mavenLocal()
+//    mavenCentral()
+//}
+//
+//// todo there's a better way to do all of this, but i'm still figuring out gradle & forge
+//dependencies {
+//    minecraft 'net.minecraftforge:forge:1.19.2-43.2.11'
+//
+//    // shade api & common so they're bill tin
+//    shade(project(":api")) { transitive false }
+//    shade(project(":common")) { transitive false }
+//
+//    // jarInJar adventure deps for epic gaming
+//    jarJar("net.kyori:adventure-api:4.14.0")
+//    jarJar("net.kyori:adventure-text-serializer-json:4.14.0")
+//}
+//
+//processResources {
+//    // copy everything excluding psd files
+//    from(sourceSets.main.resources.srcDirs) {
+//        duplicatesStrategy DuplicatesStrategy.INCLUDE
+//    }
+//}
+//
+//jar {
+//    //rename the default output, for some better... sanity with scipts
+//    ar = "midas-${version}.jar"
+//
+//    manifest {
+//        attributes([
+//                "Specification-Title": "${config.mod_id}",
+//                "Specification-Vendor": "vazkii",
+//                "Specification-Version": "1", // We are version 1 of ourselves
+//                "Implementation-Title": "${config.mod_id}",
+//                "Implementation-Version": "${version}",
+//                "Implementation-Vendor" :"vazkii",
+//                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
+//                "MixinConfigs": "quark.mixins.json"
+//        ])
+//    }
+//
+//    exclude "**/*.bat"
+//    exclude "**/*.psd"
+//    exclude "**/*.exe"
+//    exclude "**/unused"
+//    exclude "**/genscripts"
+//}
+//
+//task sourcesJar(type: Jar) {
+//    classifier = "sources"
+//    from sourceSets.main.allJava
+//}
+//
+//task deobfJar(type: Jar) {
+//    classifier = "deobf"
+//    from sourceSets.main.output
+//}
+//
+//artifacts {
+//    archives sourcesJar
+//    archives deobfJar
+//}
+//
+//publish.dependsOn(project.tasks.getByName("assemble"))
+//publish.mustRunAfter(project.tasks.getByName("build"))
+//
+//publishing {
+//
+//    publications {
+//
+//        mavenJava(MavenPublication) {
+//
+//            groupId project.group
+//            artifactId project.archivesBaseName
+//            version project.version
+//            from components.java
+//
+//            // Allows the maven pom file to be modified.
+//            pom.withXml {
+//
+//                // Go through all the dependencies.
+//                asNode().dependencies.dependency.each { dep ->
+//
+//                    println 'Surpressing artifact ' + dep.artifactId.last().value().last() + ' from maven dependencies.'
+//                    assert dep.parent().remove(dep)
+//                }
+//            }
+//
+//            artifact sourcesJar {
+//                classifier 'sources'
+//            }
+//        }
+//    }
+//
+//    repositories {
+//        maven {
+//            url "file://" + System.getenv("local_maven")
+//        }
+//
+//    }
+//}
+//
+////reobfJar {
+////    dependsOn(shadowJar)
+////}
+//
+////tasks.build.dependsOn reobfShadowJar
+////publish.dependsOn('reobfJar')
+////shadowJar.dependsOn('classes')
+////jar.finalizedBy('reobfJar')
+//
+////task packageSources(type: ShadowJar, dependsOn: 'classes') {
+////    configurations = [project.configurations.shade]
+////    from sourceSets.main.allSource
+////    exclude('META-INF/**')
+////    exclude('it/**')
+////    exclude('com/google/**')
+////    relocate 'com.eliotlash', 'software.bernie.shadowed.eliotlash'
+////    archiveClassifier = 'sources'
+////}
+////
+////artifacts {
+////    archives shadowJar
+////    archives packageSources
+////}
+////
+////afterEvaluate {
+////    publish.dependsOn('reobfShadowJar')
+////    publish.dependsOn('reobfJar')
+////    publish.dependsOn('packageSources')
+////    shadowJar.dependsOn(packageSources)
+////    shadowJar.dependsOn('classes')
+////}
+////
+////shadowJar.finalizedBy(reobfShadowJar)
+////jar.finalizedBy(packageSources)
+////
+////publishing {
+////    publications {
+////        mavenJava(MavenPublication) {
+////            artifact shadowJar
+////            artifact packageSources
+////            artifactId = project.archives_base_name
+////        }
+////    }
+////}
