@@ -1,21 +1,14 @@
-package live.webcrawls.midas.common.module.format;
+package live.webcrawls.midas.common.module;
 
 import live.webcrawls.midas.api.context.ChatContext;
-import live.webcrawls.midas.api.formatter.ChatFormatter;
+import live.webcrawls.midas.api.formatter.ChatModule;
 import live.webcrawls.midas.api.formatter.FormatResult;
 import net.kyori.adventure.text.format.NamedTextColor;
 
-public class FormatChatFormatter implements ChatFormatter {
-
-    private final ScalarFormatResolver resolver;
-
-    public FormatChatFormatter() {
-        this.resolver = new ScalarFormatResolver("\\<<name>\\> <message>");
-    }
-
+public class GreentextModule implements ChatModule {
     @Override
     public String id() {
-        return "format";
+        return "greentext";
     }
 
     @Override
@@ -26,5 +19,6 @@ public class FormatChatFormatter implements ChatFormatter {
             return FormatResult.immutable(context.message(), false);
         }
     }
+
 
 }
