@@ -31,7 +31,7 @@ services:
     restart: always
   paper_1_20_1:
     image: "itzg/minecraft-server"
-    container_name: "midas-forge-20"
+    container_name: "midas-paper-20"
     ports:
       - "25572:25565"
     volumes:
