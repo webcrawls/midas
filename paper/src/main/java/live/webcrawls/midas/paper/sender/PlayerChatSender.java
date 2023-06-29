@@ -1,5 +1,6 @@
 package live.webcrawls.midas.paper.sender;
 
+import live.webcrawls.midas.common.MidasPlatform;
 import live.webcrawls.midas.common.context.ChatContext;
 import live.webcrawls.midas.common.sender.ChatSender;
 import net.kyori.adventure.identity.Identity;
@@ -41,14 +42,11 @@ public class PlayerChatSender implements ChatSender {
 
     @Override
     public void sendMessage(ChatContext ctx) {
-        sendMessage(Identity.identity(ctx.sender().uuid()), ctx.message());
+        if (this.playerRef != null && this.playerRef.isOnline()) {
+            this.playerRef.sendMessage(Identity.identity(ctx.sender().uuid()), ctx.message());
+        } else {
+            MidasPlatform.LOGGER.warning("Tried to send message offline player " + ctx.sender().username());
+        }
     }
 
-    @Override
-    public void sendMessage(Identity identity, Component message) {
-        if (this.playerRef != null && this.playerRef.isOnline()) {
-            this.playerRef.sendMessage(message);
-        }
-        // MidasPlatform.LOGGER.warn("")
-    }
 }

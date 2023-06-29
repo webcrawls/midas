@@ -1,5 +1,6 @@
 package live.webcrawls.midas.common.sender;
 
+import live.webcrawls.midas.common.MidasPlatform;
 import live.webcrawls.midas.common.context.ChatContext;
 import net.kyori.adventure.identity.Identity;
 import net.kyori.adventure.text.Component;
@@ -27,11 +28,7 @@ public record ImmutableChatSender(UUID uuid,
 
     @Override
     public void sendMessage(ChatContext ctx) {
-        return;
+        MidasPlatform.LOGGER.info("ImmutableChatSender(" + ctx.sender().username() + ") received \"" + ctx.rawMessage() + "\"");
     }
 
-    @Override
-    public void sendMessage(Identity identity, Component message) {
-        return;
-    }
 }

@@ -12,8 +12,11 @@ import live.webcrawls.midas.common.module.URLModule;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class MidasPlatform {
+
+    public static final Logger LOGGER = Logger.getLogger("midas");
 
     private final File dataDirectory;
     private final List<ChatModule> modules;

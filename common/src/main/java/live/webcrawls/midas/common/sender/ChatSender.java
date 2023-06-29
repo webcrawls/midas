@@ -1,6 +1,7 @@
 package live.webcrawls.midas.common.sender;
 
 import live.webcrawls.midas.common.context.ChatContext;
+import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.identity.Identity;
 import net.kyori.adventure.text.Component;
 
@@ -10,7 +11,7 @@ import java.util.UUID;
 /**
  * {@code ChatSender} defines the sender of a chat message.
  */
-public interface ChatSender {
+public interface ChatSender extends Audience {
 
     /**
      * Returns an immutable {@code ChatSender} instance.
@@ -51,9 +52,8 @@ public interface ChatSender {
     /**
      * Sends a message to the recipient.
      *
-     * @param message the message
+     * @param ctx the chat context
      */
     void sendMessage(ChatContext ctx);
-    void sendMessage(Identity identity, Component message);
 
 }

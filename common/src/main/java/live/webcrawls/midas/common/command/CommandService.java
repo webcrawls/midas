@@ -23,7 +23,7 @@ public class CommandService {
     }
 
     private void handleHelp(CommandContext<ChatSender> sender) {
-        sender.getSender().sendMessage(Identity.nil(), Component.text("LMAOO"));
+        sender.getSender().sendMessage(Component.text("LMAOO"));
     }
 
 }
