@@ -36,7 +36,7 @@ public interface Messages {
         var builder = Component.text()
                 .append(PREFIX);
 
-        text.forEach(t -> builder.append(pluginText(t)));
+        text.forEach(t -> builder.append(pluginText(t).append(Component.newline())));
 
         return builder.build();
     }

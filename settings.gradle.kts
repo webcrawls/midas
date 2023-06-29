@@ -3,7 +3,7 @@ rootProject.name = "midas"
 include("common")
 include("paper")
 //include("fabric")
-//includeVersions("forge", "1_19_2", "1_20_1")
+includeVersions("forge", "1_19_2")
 
 pluginManagement {
     repositories {
@@ -12,6 +12,10 @@ pluginManagement {
         maven("https://maven.minecraftforge.net/")
         maven("https://maven.fabricmc.net/")
     }
+}
+
+plugins {
+    id("org.gradle.toolchains.foojay-resolver-convention") version ("0.5.0")
 }
 
 fun includeVersions(common: String, vararg names: String) {

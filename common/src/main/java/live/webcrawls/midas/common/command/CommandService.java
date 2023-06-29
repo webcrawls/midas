@@ -4,10 +4,13 @@ import cloud.commandframework.Command;
 import cloud.commandframework.CommandManager;
 import cloud.commandframework.context.CommandContext;
 import live.webcrawls.midas.common.MidasPlatform;
+import live.webcrawls.midas.common.constants.Messages;
+import live.webcrawls.midas.common.module.MidasModule;
 import live.webcrawls.midas.common.sender.ChatSender;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static live.webcrawls.midas.common.constants.Messages.*;
@@ -24,6 +27,10 @@ public class CommandService {
     }
 
     public void registerCommands() {
+        if (this.manager == null) {
+            MidasPlatform.LOGGER.warning("null command manager");
+            return;
+        }
         Command.Builder<ChatSender> root = this.manager.commandBuilder("midas");
         Command.Builder<ChatSender> main = root.handler(this::handleHelp);
         Command.Builder<ChatSender> modules = root.literal("modules")
@@ -46,9 +53,16 @@ public class CommandService {
     }
 
     private void handleModules(CommandContext<ChatSender> sender) {
-        var modules = this.platform.modules().stream().map(module -> defaultStyle(module.id()).color(NamedTextColor.GREEN)).toList();
-        sender.getSender().sendMessage(pluginText(defaultStyle("Modules: " + modules.size())));
-        sender.getSender().sendMessage(pluginText(modules));
+        List<MidasModule> modules = this.platform.modules().all();
+        List<Component> messages = new ArrayList<>();
+
+        messages.add(defaultStyle(modules.size() + " modules loaded."));
+
+        for (var module : modules) {
+            messages.add(defaultStyle("- " + module.id()));
+        }
+
+        sender.getSender().sendMessage(Messages.pluginText(messages));
     }
 
 }

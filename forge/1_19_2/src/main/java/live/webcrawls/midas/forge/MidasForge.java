@@ -1,14 +1,13 @@
 package live.webcrawls.midas.forge;
 
 import com.mojang.logging.LogUtils;
-import live.webcrawls.midas.api.context.ChatContext;
-import live.webcrawls.midas.api.sender.ChatSender;
+import live.webcrawls.midas.common.MidasPlatform;
+import live.webcrawls.midas.common.context.ChatContext;
+import live.webcrawls.midas.common.sender.ChatSender;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.json.JSONComponentSerializer;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
+import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.ServerChatEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -16,23 +15,20 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
 import org.slf4j.Logger;
 
+import java.nio.file.Paths;
 import java.util.Map;
 
-// The value here should match an entry in the META-INF/mods.toml file
 @Mod(MidasForge.MODID)
 public class MidasForge {
 
     public static final String MODID = "midas";
     private static final Logger LOGGER = LogUtils.getLogger();
 
-    private final ForgeMidasPlatform platform;
+    private MidasPlatform platform;
 
     public MidasForge() {
-        this.platform = new ForgeMidasPlatform();
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
         modEventBus.addListener(this::commonSetup);
@@ -40,9 +36,11 @@ public class MidasForge {
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
-        LOGGER.info("Midas commonSetup");
+        ForgeMod.enableServerChatPreview();
+        LOGGER.info("Loading MidasPlatform");
+        this.platform = new MidasPlatform(Paths.get(".").toFile(), null);
+        this.platform.load();
     }
-
 
     @SubscribeEvent
     public void onServerChat(ServerChatEvent event) {
