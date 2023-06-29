@@ -16,7 +16,7 @@ dependencies {
 tasks {
     shadowJar {
         relocate("org.spongepowered", "live.webcrawls.midas.paper.dependency.spongepowered")
-        relocate("cloud.commandframework", "live.webcrawls.midas.paper.dependency.cloud ")
+        relocate("cloud.commandframework", "live.webcrawls.midas.paper.dependency.cloud")
     }
 }
 
