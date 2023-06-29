@@ -7,23 +7,16 @@ repositories {
 }
 
 dependencies {
-    implementation(project(":api"))
     implementation(project(":common"))
     implementation("cloud.commandframework:cloud-paper:1.8.3")
-    compileOnly("net.kyori:adventure-text-serializer-plain:4.14.0")
-
-    compileOnly("io.papermc.paper:paper-api:1.20-R0.1-SNAPSHOT") {
-        // ignore paper's dependencies in our build
-        // we'll bring our own versions in
-        // todo figure out if this is still necessary?
-        isTransitive = false
-    }
+    implementation("net.kyori:adventure-text-serializer-plain:4.14.0")
+    compileOnly("io.papermc.paper:paper-api:1.20.1-R0.1-SNAPSHOT")
 }
 
 tasks {
     shadowJar {
         relocate("org.spongepowered", "live.webcrawls.midas.paper.dependency.spongepowered")
-        relocate("cloud.commandframework", "live.webcrawls.midas.paper.dependency.cloud")
+        relocate("cloud.commandframework", "live.webcrawls.midas.paper.dependency.cloud ")
     }
 }
 

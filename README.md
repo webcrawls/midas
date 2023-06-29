@@ -1,4 +1,4 @@
-# 🧈 Midas
+# ⚜️ Midas
 
 Midas is a multi-platform Minecraft chat mod for Paper, Forge, and Fabric.
 

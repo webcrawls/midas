@@ -1,10 +1,10 @@
 package live.webcrawls.midas.common;
 
 import cloud.commandframework.CommandManager;
-import live.webcrawls.midas.api.context.ChatContext;
-import live.webcrawls.midas.api.formatter.ChatModule;
-import live.webcrawls.midas.api.formatter.FormatResult;
-import live.webcrawls.midas.api.sender.ChatSender;
+import live.webcrawls.midas.common.context.ChatContext;
+import live.webcrawls.midas.common.formatter.ChatModule;
+import live.webcrawls.midas.common.formatter.FormatResult;
+import live.webcrawls.midas.common.sender.ChatSender;
 import live.webcrawls.midas.common.command.CommandService;
 import live.webcrawls.midas.common.module.GreentextModule;
 import live.webcrawls.midas.common.module.URLModule;

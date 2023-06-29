@@ -1,6 +1,6 @@
-package live.webcrawls.midas.api.context;
+package live.webcrawls.midas.common.context;
 
-import live.webcrawls.midas.api.sender.ChatSender;
+import live.webcrawls.midas.common.sender.ChatSender;
 import net.kyori.adventure.text.Component;
 
 public record ImmutableChatContext(ChatSender sender,

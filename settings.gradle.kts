@@ -1,6 +1,5 @@
 rootProject.name = "midas"
 
-include("api")
 include("common")
 include("paper")
 include("fabric")

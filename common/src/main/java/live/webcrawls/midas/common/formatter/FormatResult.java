@@ -1,4 +1,4 @@
-package live.webcrawls.midas.api.formatter;
+package live.webcrawls.midas.common.formatter;
 
 import net.kyori.adventure.text.Component;
 

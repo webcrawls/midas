@@ -1,8 +1,8 @@
 package live.webcrawls.midas.forge;
 
 import com.mojang.logging.LogUtils;
-import live.webcrawls.midas.api.context.ChatContext;
-import live.webcrawls.midas.api.sender.ChatSender;
+import live.webcrawls.midas.common.context.ChatContext;
+import live.webcrawls.midas.common.sender.ChatSender;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.json.JSONComponentSerializer;
 import net.minecraft.server.level.ServerPlayer;

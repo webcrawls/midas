@@ -1,4 +1,8 @@
-package live.webcrawls.midas.api.sender;
+package live.webcrawls.midas.common.sender;
+
+import live.webcrawls.midas.common.context.ChatContext;
+import net.kyori.adventure.identity.Identity;
+import net.kyori.adventure.text.Component;
 
 import java.util.Map;
 import java.util.UUID;
@@ -43,5 +47,13 @@ public interface ChatSender {
      * @return the sender's metadata
      */
     Map<String, String> meta();
+
+    /**
+     * Sends a message to the recipient.
+     *
+     * @param message the message
+     */
+    void sendMessage(ChatContext ctx);
+    void sendMessage(Identity identity, Component message);
 
 }

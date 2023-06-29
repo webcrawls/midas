@@ -1,8 +1,8 @@
 package live.webcrawls.midas.common.module;
 
-import live.webcrawls.midas.api.context.ChatContext;
-import live.webcrawls.midas.api.formatter.ChatModule;
-import live.webcrawls.midas.api.formatter.FormatResult;
+import live.webcrawls.midas.common.context.ChatContext;
+import live.webcrawls.midas.common.formatter.ChatModule;
+import live.webcrawls.midas.common.formatter.FormatResult;
 import net.kyori.adventure.text.format.NamedTextColor;
 
 public class GreentextModule implements ChatModule {

@@ -1,6 +1,6 @@
-package live.webcrawls.midas.api.formatter;
+package live.webcrawls.midas.common.formatter;
 
-import live.webcrawls.midas.api.context.ChatContext;
+import live.webcrawls.midas.common.context.ChatContext;
 
 /**
  * {@code ChatModule} defines common methods a chat module should implement.

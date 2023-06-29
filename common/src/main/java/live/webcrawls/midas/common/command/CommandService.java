@@ -3,7 +3,9 @@ package live.webcrawls.midas.common.command;
 import cloud.commandframework.Command;
 import cloud.commandframework.CommandManager;
 import cloud.commandframework.context.CommandContext;
-import live.webcrawls.midas.api.sender.ChatSender;
+import live.webcrawls.midas.common.sender.ChatSender;
+import net.kyori.adventure.identity.Identity;
+import net.kyori.adventure.text.Component;
 
 public class CommandService {
 
@@ -15,10 +17,13 @@ public class CommandService {
 
     public void registerCommands() {
         Command.Builder<ChatSender> root = this.manager.commandBuilder("midas");
+        Command.Builder<ChatSender> main = root.handler(this::handleHelp);
+
+        this.manager.command(main);
     }
 
     private void handleHelp(CommandContext<ChatSender> sender) {
-
+        sender.getSender().sendMessage(Identity.nil(), Component.text("LMAOO"));
     }
 
 }
