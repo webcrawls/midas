@@ -3,14 +3,17 @@ package live.webcrawls.midas.paper.sender;
 import live.webcrawls.midas.common.MidasPlatform;
 import live.webcrawls.midas.common.context.ChatContext;
 import live.webcrawls.midas.common.sender.ChatSender;
+import net.kyori.adventure.audience.Audience;
+import net.kyori.adventure.audience.ForwardingAudience;
 import net.kyori.adventure.identity.Identity;
-import net.kyori.adventure.text.Component;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-public class PlayerChatSender implements ChatSender {
+public class PlayerChatSender implements ChatSender, ForwardingAudience {
 
     private final UUID uuid;
     private final String name;
@@ -49,4 +52,12 @@ public class PlayerChatSender implements ChatSender {
         }
     }
 
+    @Override
+    public @NotNull Iterable<? extends Audience> audiences() {
+        if (this.playerRef != null) {
+            return List.of(this.playerRef);
+        }
+
+        return List.of();
+    }
 }
