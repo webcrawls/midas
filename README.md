@@ -2,6 +2,9 @@
 
 Midas is a multi-platform Minecraft chat mod for Paper, Forge, and Fabric.
 
+- [Modrinth](https://modrinth.com/mod/midas)
+- [Hangar](https://hangar.papermc.io/webcrawls/midas)
+
 ## Features
 
 _(this is a just a todo list for now!)_
