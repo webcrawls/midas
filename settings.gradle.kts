@@ -2,8 +2,8 @@ rootProject.name = "midas"
 
 include("common")
 include("paper")
-include("fabric")
-includeVersions("forge", "1_19_2", "1_20_1")
+//include("fabric")
+//includeVersions("forge", "1_19_2", "1_20_1")
 
 pluginManagement {
     repositories {
