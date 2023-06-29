@@ -11,7 +11,9 @@ public class MidasConfiguration {
     public @NonNull List<String> enabledModules = List.of(
             "url",
             "greentext",
-            "format"
+            "format",
+            "markdown",
+            "minimessage"
     );
 
 }
