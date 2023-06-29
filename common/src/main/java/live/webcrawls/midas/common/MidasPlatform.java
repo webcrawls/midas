@@ -1,13 +1,14 @@
 package live.webcrawls.midas.common;
 
 import cloud.commandframework.CommandManager;
+import live.webcrawls.midas.common.config.ConfigurationService;
 import live.webcrawls.midas.common.context.ChatContext;
-import live.webcrawls.midas.common.formatter.ChatModule;
-import live.webcrawls.midas.common.formatter.FormatResult;
+import live.webcrawls.midas.common.module.MidasModule;
+import live.webcrawls.midas.common.module.format.FormatResult;
 import live.webcrawls.midas.common.sender.ChatSender;
 import live.webcrawls.midas.common.command.CommandService;
-import live.webcrawls.midas.common.module.GreentextModule;
-import live.webcrawls.midas.common.module.URLModule;
+import live.webcrawls.midas.common.module.greentext.GreentextModule;
+import live.webcrawls.midas.common.module.url.URLModule;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -19,14 +20,20 @@ public class MidasPlatform {
     public static final Logger LOGGER = Logger.getLogger("midas");
 
     private final File dataDirectory;
-    private final List<ChatModule> modules;
+    private final List<MidasModule> modules;
     private final CommandService commands;
+    private final ConfigurationService configuration;
 
     public MidasPlatform(final File dataDirectory,
                          final CommandManager<ChatSender> commandManager) {
         this.dataDirectory = dataDirectory;
         this.modules = new ArrayList<>();
-        this.commands = new CommandService(commandManager);
+        this.commands = new CommandService(this, commandManager);
+        this.configuration = new ConfigurationService(this.dataDirectory);
+    }
+
+    public List<MidasModule> modules() {
+        return List.copyOf(this.modules);
     }
 
     public void load() {

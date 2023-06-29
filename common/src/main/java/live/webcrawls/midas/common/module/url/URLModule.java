@@ -1,8 +1,8 @@
-package live.webcrawls.midas.common.module;
+package live.webcrawls.midas.common.module.url;
 
 import live.webcrawls.midas.common.context.ChatContext;
-import live.webcrawls.midas.common.formatter.ChatModule;
-import live.webcrawls.midas.common.formatter.FormatResult;
+import live.webcrawls.midas.common.module.MidasModule;
+import live.webcrawls.midas.common.module.format.FormatResult;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.event.HoverEvent;
@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
-public class URLModule implements ChatModule {
+public class URLModule implements MidasModule {
 
     // https://stackoverflow.com/a/163398
     // requires protocol :(
@@ -39,7 +39,7 @@ public class URLModule implements ChatModule {
         }
 
         if (urls.isEmpty()) {
-            return FormatResult.immutable(context.message(), false);
+            return FormatResult.unchanged(context.message());
         }
 
         Component message = context.message();
@@ -57,7 +57,7 @@ public class URLModule implements ChatModule {
                     .replacement(text));
         }
 
-        return FormatResult.immutable(message, true);
+        return FormatResult.changed(message);
     }
 
     private Component createUrlComponent(String original, String cleaned) {
