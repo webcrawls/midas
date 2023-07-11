@@ -46,6 +46,14 @@ public class ConfigurationService {
             e.printStackTrace();
         }
 
+        if (this.root != null) {
+            try {
+                return this.root.get(MidasConfiguration.class);
+            } catch (final Exception e) {
+                e.printStackTrace();
+            }
+        }
+
         return null;
     }
 
@@ -61,7 +69,7 @@ public class ConfigurationService {
                 .defaultOptions(opts -> opts
                         .shouldCopyDefaults(true)
                         // todo load module configuration serializers
-                        .serializers(TypeSerializerCollection.builder().build()))
+                        .serializers(TypeSerializerCollection.defaults()))
                 .build();
     }
 
